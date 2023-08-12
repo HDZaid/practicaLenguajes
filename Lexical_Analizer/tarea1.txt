@@ -1,0 +1,43 @@
+PRIMERA PARTE DE LA TAREA 
+
+aabbcc: esta cadena es valida que comple con la 
+aaabbbccc: tambien es una cadena valida porque cumple con la regla de tener la misma cantidad de "a", "b" y "c"
+
+dada la siguiente gramatica dependiente del contexto:
+
+1.  S → aSb
+2.  S → X
+3.  X → bXc
+4.  X → Y
+5.  Y → cYd
+6.  Y → ε
+
+
+
+
+Determine si las siguientes cadenas pertenecen al lenguaje generado por esta gramática:
+
+	# abcd		esta cadena pertenece a: L = {a^n b^n c^n d^n | n >= 1} por lo que pertenecen a la gramatica
+	# aabbcc	esta cadena pertenece a: L = {a^n b^n c^n | n >= 1} por lo que pertenece a la gramatica 
+	# aaabbbcccddd  esta cadena pertenece a: L = {a^n b^n c^n d^n | n >= 1} por lo que pertenece a la gramatica
+	
+SEGUNDA PARTE DE LA TAREA
+
+# Lenguaje de cadenas de la forma a^n b^n
+	"aabb"
+	"ab"
+	"aaabbb"
+#El conjunto de cadenas {0^n 1^n | n ≥ 1}
+	"0011"
+	"01"
+	"0000001"
+#Conjunto de todas las cadenas formadas por uno o mas ceros seguidos de mismo numero de unos
+	"000111"
+	"0011"	
+	"01"
+#Lenguaje que siempre forman un par de parentesis 
+	"(((())))"
+	"()()"
+	"))(("
+	"()"
+	
