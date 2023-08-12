@@ -6,11 +6,22 @@ package com.mycompany.lexical_analizer.Analyzer;
 
 import com.mycompany.lexical_analizer.WordsToRecognize;
 
-
+/**
+ *
+ * @author Vicky_soch
+ */
 public class Analyzer {
     
     public void analyze(String text){
-
+//        if(text){
+//            
+//        }else if(){
+//            
+//        }else if(){
+//            
+//        }else if(){
+//            
+//        }
     }
     //abcdefgilnoprtwy
     private boolean isPotentialReservatedWord(String text){

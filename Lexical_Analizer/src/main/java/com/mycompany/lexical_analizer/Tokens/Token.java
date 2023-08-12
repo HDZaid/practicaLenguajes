@@ -4,7 +4,10 @@
  */
 package com.mycompany.lexical_analizer.Tokens;
 
-
+/**
+ *
+ * @author Vicky_soch
+ */
 public class Token {
     private int row;
     private int column;

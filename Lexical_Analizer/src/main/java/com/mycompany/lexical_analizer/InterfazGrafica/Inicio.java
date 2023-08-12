@@ -4,7 +4,10 @@
  */
 package com.mycompany.lexical_analizer.InterfazGrafica;
 
-
+/**
+ *
+ * @author Vicky_soch
+ */
 public class Inicio extends javax.swing.JPanel {
 
     /**

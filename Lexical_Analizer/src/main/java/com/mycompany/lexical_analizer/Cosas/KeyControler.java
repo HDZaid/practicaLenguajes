@@ -7,7 +7,10 @@ package com.mycompany.lexical_analizer.Cosas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
+/**
+ *
+ * @author Vicky_soch
+ */
 public class KeyControler {
     
     public KeyListener keyListener(){

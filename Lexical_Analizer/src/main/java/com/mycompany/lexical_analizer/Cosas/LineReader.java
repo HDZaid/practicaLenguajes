@@ -4,7 +4,10 @@
  */
 package com.mycompany.lexical_analizer.Cosas;
 
-
+/**
+ *
+ * @author Vicky_soch
+ */
 public class LineReader {
     
 }
