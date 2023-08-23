@@ -4,9 +4,6 @@
  */
 package com.mycompany.lexical_analizer;
 
-/**
- *
- */
 public class WordsToRecognize {
     
     private final String AND = "and";

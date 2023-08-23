@@ -4,10 +4,6 @@
  */
 package com.mycompany.lexical_analizer.Tokens;
 
-/**
- *
- * @author Vicky_soch
- */
-public class Symbols {
+public class PalabraReservada extends Token{
     
 }

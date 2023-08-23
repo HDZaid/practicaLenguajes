@@ -5,18 +5,26 @@
     <artifactId>Lexical_Analizer</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>io.github.forsyde</groupId>
-            <artifactId>java-graphviz</artifactId>
-            <version>0.5.2</version>
-            <type>pom.sha512</type>
-        </dependency>
-    </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
-        <exec.mainClass>com.mycompany.lexical_analizer.Lexical_Analizer</exec.mainClass>
     </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+        
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.mycompany.lexical_analizer.Lexical_Analizer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+        
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,0 +1,13 @@
+MANUAL DE USUARIO
+
+Para poder ejecutar el siguiente proyecto, es necesario contar con una version actualizada de java 
+
+se debe colocar el comando para abrir el archivo ejecutable para correr el ejecutable 
+
+una vez que el programa se ejecute, se despliega una ventana donde se pueden escribir las palabras para hacer que el programa reconozca
+los tokens y los pinte de colores dependiendo el token que le corresponda 
+
+se pueden cargar archivos desde el  boton "Abrir" para que se pueda visualizar el contenido del archivo
+
+en la parte inferior aparece un reporte simple de los tokens que se escriben en el area de texto, simplemente describe la clasificacion 
+de los tokens 

@@ -4,10 +4,7 @@
  */
 package com.mycompany.lexical_analizer.Tokens;
 
-/**
- *
- * @author Vicky_soch
- */
-public class reservatedWord {
+
+public class Comentario extends Token{
     
 }

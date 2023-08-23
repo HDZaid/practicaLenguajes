@@ -1,0 +1,61 @@
+MANUAL DE USUARIO PARA SUBIR A GIT
+
+A continuacion se explicara clase por clase el funcionamiento del programa: 
+
+Lexical_Analizer: es la clase que contine el método main y cuando se ejecuta crea una instancia de la clase Ventana
+
+WordsToRecognize: aca se define una serie de palab ras clave y simblos para el lenguaje como constantes. Estas constantes representan
+palabras reservadas y símbolos; cada constante es definida como una cadena o un caracter y se nombra de acuerdo con la convencion de
+escritura en mayusculas para constantes ademas de las palabras clave, tambien se definen simbolos como caracteres individuales, 
+como operadores matematicos, signos de puntuacion, etc.
+
+Analyzer: En esta clase se encuentran los metodos isPotentialReservatedWord(String text): Este método verifica si una cadena dada podría
+ser una palabra clave reservada. Comprueba si el primer carácter de la cadena está en una lista de caracteres asociados a las
+posibles letras iniciales de las palabras clave, isSymbol(String text):Este método verifica si una cadena dada podría ser un símbolo.
+Comprueba si el primer carácter de la cadena está en una lista de caracteres asociados a los posibles símbolos.
+isNumberTheFirstSpace(String text):Este método comprueba si el primer carácter de la cadena dada es un dígito, lo que indicaría que 
+la cadena podría ser un número. Se utiliza para determinar si la cadena podría ser un número en el análisis léxico:
+isReservatedWord(String text):Este método utiliza la clase WordsToRecognize para verificar si la cadena dada coincide con una palabra 
+clave reservada. Comprueba si la cadena coincide con cualquiera de las palabras clave definidas en WordsToRecognize.
+
+SelectorDeSimbolos: Esta clase tiene los metodos tipoDeToken(String text): Este método toma una cadena de texto como entrada y determina 
+el tipo de token que podría ser. Si la cadena tiene una longitud de 1, se intenta identificar si es un posible símbolo. Si la cadena es
+una constante válida, se crea un token de tipo Constant. Si la cadena es un comentario, se crea un token de tipo Comentario. Si la 
+cadena es potencialmente una palabra reservada o un identificador, se llama al método posiblePalabraReservada para decidir qué tipo de
+token es. Si la cadena no tiene longitud o no se puede identificar, se devuelve un token genérico. posibleSimbolo(String text): Este 
+método verifica si la cadena dada podría ser un símbolo. Si es un símbolo válido según el analyzer, devuelve un token de tipo Symbol. 
+Si la cadena es una constante o un comentario, se crean los tokens correspondientes. Si no es ninguno de estos casos, se llama al método
+posiblePalabraReservada para decidir el tipo de token. posiblePalabraReservada(String text): Aquí se verifica si la cadena podría ser una 
+palabra reservada. Si es potencialmente una palabra reservada según el analyzer, se verifica si es una palabra reservada válida o un 
+identificador válido. Dependiendo de los resultados, se crea un token de tipo PalabraReservada o Identifier.
+verificarIdentificador(String text): Este método verifica si la cadena dada podría ser un identificador válido en Python. Comprueba si 
+el primer carácter es una letra o un guión bajo y si los caracteres siguientes son letras, números o guiones bajos. 
+posibleConstante(String text): Verifica si la cadena podría ser una constante. Intenta convertir la cadena en un número y verifica si 
+está entre comillas devuelve true si es una constante numérica o de cadena, de lo contrario, devuelve false.
+
+Contador: esta clase cuenta con los metodos countLineBreaksBeforeIndex(String text, int endIndex): Cuenta cuántos saltos de línea hay en 
+el texto hasta el índice dado.getIndiceowo(String text, int caretPosition): Encuentra el índice de inicio de la palabra (o cadena) donde 
+se encuentra el cursor en el texto. Considera diferentes situaciones, como el final del texto o espacios/saltos de línea antes y después 
+de la palabra.
+
+Spliter: tiene los metodos splitLines(String text)que divide el texto en líneas utilizando saltos de línea (\n o \r) como separadores y 
+devuelve un arreglo de líneas, splitWords(String text): Divide el texto en palabras utilizando espacios como separadores y devuelve un 
+arreglo de palabras.lastWord(int cursorIndex, String text) que extrae y devuelve la última palabra del texto a partir del índice del 
+cursor.getLastWord(int cursorIndex, String text): Divide el texto en líneas, extrae la última línea y luego divide esa línea en 
+palabras
+
+AreaDeTrabajo, es la clase que gestiona una interfaz grafica con elementos como botones, area de texto y paneles, tambien inicializa 
+componentes y define su comportamiento en respuesta a evento, utiliza la clase Spliter para dividir y procesar el contenido de texto 
+ingresado, detecta eventos de teclado y cursor para identificar palabras y simbolos en el texto, Utiliza la clase SelectorDeSimbolos y 
+Contador para analizar, resaltar tokens tambien tiene funciones para abrir y cargar archivos de texto
+
+ColorSelecter, esta clase proporcina metodos para obtener diferentes estilos de color en un documento de estilo, utilizado en la interfaz
+grafica. Los metodos devuelven objetos Style con colores predefinidos para varios tipos de elementos en el documento.
+
+Lista: Es una implementación de una estructura de datos en forma de lista enlazada genérica. Permite almacenar elementos de tipo 
+genérico T en una secuencia ordenada. Los elementos se pueden agregar al final de la lista, eliminar desde el final o en un índice 
+específico, obtener la instancia en un índice dado y establecer la instancia en un índice dado. La clase mantiene un seguimiento del 
+tamaño de la lista y utiliza nodos enlazados para mantener la estructura de la lista.
+
+Nodo: Representa un nodo en una estructura de datos de lista enlazada genérica.  Los nodos se utilizan para construir una lista enlazada, 
+donde cada nodo contiene un elemento y un enlace al siguiente nodo en la secuencia. 

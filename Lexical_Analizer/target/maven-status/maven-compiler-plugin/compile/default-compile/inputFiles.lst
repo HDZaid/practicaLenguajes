@@ -1,5 +1,21 @@
-C:\Users\50249\Documents\NetBeansProjects\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Reservadas.java
-C:\Users\50249\Documents\NetBeansProjects\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Lexical_Analizer.java
-C:\Users\50249\Documents\NetBeansProjects\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\InterfazGrafica\Ventana.java
-C:\Users\50249\Documents\NetBeansProjects\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\InterfazGrafica\AreaDeTrabajo.java
-C:\Users\50249\Documents\NetBeansProjects\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\InterfazGrafica\Inicio.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\InterfazGrafica\Inicio.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Tokens\PalabraReservada.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\pruebas\otra.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Cosas\Contador.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Tokens\Identifier.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\WordsToRecognize.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Tokens\Operator.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Tokens\Constant.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Cosas\Spliter.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Lexical_Analizer.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\InterfazGrafica\ColorSelecter.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\ListaEnlazada\Lista.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\InterfazGrafica\Ventana.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Analyzer\Analyzer.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\ListaEnlazada\Nodo.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Tokens\Symbol.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\InterfazGrafica\AreaDeTrabajo.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Tokens\Comentario.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Analyzer\SelectorDeSimbolos.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\Tokens\Token.java
+C:\Users\henry\OneDrive\Escritorio\nueva carpeta\Lexical_Analizer\src\main\java\com\mycompany\lexical_analizer\pruebas\pruebajsjs.java

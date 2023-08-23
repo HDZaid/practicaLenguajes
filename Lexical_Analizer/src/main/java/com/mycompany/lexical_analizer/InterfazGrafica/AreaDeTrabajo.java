@@ -4,19 +4,44 @@
  */
 package com.mycompany.lexical_analizer.InterfazGrafica;
 
+import com.mycompany.lexical_analizer.Analyzer.SelectorDeSimbolos;
+import com.mycompany.lexical_analizer.Cosas.Contador;
+import com.mycompany.lexical_analizer.Cosas.Spliter;
+import com.mycompany.lexical_analizer.Tokens.Comentario;
+import com.mycompany.lexical_analizer.Tokens.Constant;
+import com.mycompany.lexical_analizer.Tokens.Identifier;
+import com.mycompany.lexical_analizer.Tokens.Operator;
+import com.mycompany.lexical_analizer.Tokens.PalabraReservada;
+import com.mycompany.lexical_analizer.Tokens.Symbol;
+import com.mycompany.lexical_analizer.Tokens.Token;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.text.StyledDocument;
 
-/**
- *
- */
 public class AreaDeTrabajo extends javax.swing.JPanel {
+
+    private Spliter spliter;
+    private int posicionDelCursor;
+    private final int INDICE_ROJO = 1;
+    private final int INDICE_CELESTE = 2;
+    private final int INDICE_VERDE = 3;
+    private final int INDICE_MORADO = 4;
+    private final int INDICE_GRIS = 5;
+    private final int INDICE_NEGRO = 6;
+    private File currentFile;
 
     /**
      * Creates new form AreaDeTrabajo
      */
     public AreaDeTrabajo() {
         initComponents();
+        this.agregarKeyListener();
+        this.spliter = new Spliter();
     }
 
     /**
@@ -32,10 +57,10 @@ public class AreaDeTrabajo extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        editorPane = new javax.swing.JEditorPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        resultPane = new javax.swing.JEditorPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textPane = new javax.swing.JTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        errorPane = new javax.swing.JTextPane();
 
         setBackground(new java.awt.Color(51, 51, 51));
 
@@ -51,6 +76,11 @@ public class AreaDeTrabajo extends javax.swing.JPanel {
 
         jButton2.setBackground(new java.awt.Color(153, 153, 153));
         jButton2.setText("Abrir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(153, 153, 153));
         jButton3.setText("Limpiar");
@@ -58,11 +88,11 @@ public class AreaDeTrabajo extends javax.swing.JPanel {
         jButton4.setBackground(new java.awt.Color(153, 153, 153));
         jButton4.setText("Guardar");
 
-        editorPane.setBackground(new java.awt.Color(204, 204, 204));
-        jScrollPane3.setViewportView(editorPane);
+        textPane.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setViewportView(textPane);
 
-        resultPane.setBackground(new java.awt.Color(204, 204, 204));
-        jScrollPane4.setViewportView(resultPane);
+        errorPane.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane2.setViewportView(errorPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,11 +101,11 @@ public class AreaDeTrabajo extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 580, Short.MAX_VALUE)
                         .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -96,31 +126,24 @@ public class AreaDeTrabajo extends javax.swing.JPanel {
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        this.imprimir();
+
     }//GEN-LAST:event_playButtonActionPerformed
 
-    private void imprimir(){
-        String a = this.editorPane.getText();
-        System.out.println("texto \n" + a);
-        String[] b = a.split("\n");
-        for (int i = 0; i < b.length; i++) {
-            String text = b[i].replaceAll("\r",""); //aveces el caracter a reemplazar funciona con [\n\r] para eliminar saltos de linea
-            System.out.print(text);
-        }
-    }
-    
-    private void agregarKeyListener(){
-        this.editorPane.addKeyListener(new KeyListener() {
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.subirArchivo();
+        this.interpretar();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void agregarKeyListener() {
+        this.textPane.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
 
@@ -133,19 +156,111 @@ public class AreaDeTrabajo extends javax.swing.JPanel {
 
             @Override
             public void keyReleased(KeyEvent e) {
+                posicionDelCursor = textPane.getCaretPosition();
+                if (e.getKeyChar() != ' ') {
+                    juntarDatos(posicionDelCursor);
+                } else {
+                    System.out.println("aja");
+                }
+                if (e.getKeyChar() == '\n') {
 
+                }
             }
         });
     }
-    
+
+    private void juntarDatos(int indiceCursor) {
+        SelectorDeSimbolos selector = new SelectorDeSimbolos();
+        Contador contador = new Contador();
+        String texto = this.textPane.getText();
+        int indiceFinal = indiceCursor;
+        int indiceInicio = contador.getIndiceowo(texto, indiceFinal);
+        int saltos = contador.countLineBreaksBeforeIndex(texto, indiceCursor);
+        indiceFinal = indiceFinal + saltos;
+        try {
+            String palabra = texto.substring(indiceInicio, indiceFinal);
+            palabra = palabra.replaceAll("[\n\r]", "");
+            palabra = palabra.replaceAll(" ", "");
+            System.out.println("palabra actual: " + palabra);
+            Token token = selector.tipoDeToken(palabra);
+            this.tipoDeToken(token);
+            this.filtrar(token, indiceInicio, indiceFinal);
+        } catch (Exception e) {
+            System.out.println("something wrong here");
+            System.out.println(e.toString());
+        }
+    }
+
+    private void filtrar(Token token, int inicio, int finaliza) {
+        ColorSelecter colorSelecter = new ColorSelecter();
+        StyledDocument doc = this.textPane.getStyledDocument();
+        System.out.println("token: " + token.getClass().getSimpleName());
+        if (token instanceof Symbol) {
+            doc.setCharacterAttributes(inicio, finaliza - inicio, colorSelecter.getCelesteStyle(doc), false);
+        } else if (token instanceof Identifier) {
+            doc.setCharacterAttributes(inicio, finaliza - inicio, colorSelecter.getNegroStyle(doc), false);
+        } else if (token instanceof Operator) {
+            doc.setCharacterAttributes(inicio, finaliza - inicio, colorSelecter.getCelesteStyle(doc), false);
+        } else if (token instanceof PalabraReservada) {
+            doc.setCharacterAttributes(inicio, finaliza - inicio, colorSelecter.getMoradoStyle(doc), false);
+        } else if (token instanceof Constant) {
+            doc.setCharacterAttributes(inicio, finaliza - inicio, colorSelecter.getRojoStyle(doc), false);
+        } else if (token instanceof Comentario) {
+            doc.setCharacterAttributes(inicio, finaliza - inicio, colorSelecter.getGrisStyle(doc), false);
+        } else {
+            doc.setCharacterAttributes(inicio, finaliza - inicio, colorSelecter.getVerdeStyle(doc), false);
+        }
+    }
+
+    private void subirArchivo() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text files (*.txt)", "txt"));
+            int resultado = fileChooser.showOpenDialog(null);
+            if (resultado == JFileChooser.APPROVE_OPTION) {
+                this.currentFile = fileChooser.getSelectedFile();
+                this.textPane.setText("");
+                this.textPane.setText(this.leerDelArchivo(currentFile));
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private String leerDelArchivo(File file) {
+        StringBuilder contenido = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                contenido.append(linea).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return contenido.toString();
+    }
+
+    private void interpretar() {
+        for (int i = 0; i < this.textPane.getText().length(); i++) {
+            this.juntarDatos(i);
+        }
+    }
+
+    private void tipoDeToken(Token token) {
+        try {
+            this.errorPane.setText(token.getClass().getSimpleName());
+        } catch (Exception e) {
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JEditorPane editorPane;
+    private javax.swing.JTextPane errorPane;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton playButton;
-    private javax.swing.JEditorPane resultPane;
+    private javax.swing.JTextPane textPane;
     // End of variables declaration//GEN-END:variables
 }

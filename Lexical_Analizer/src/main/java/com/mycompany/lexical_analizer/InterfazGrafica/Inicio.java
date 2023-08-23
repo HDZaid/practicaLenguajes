@@ -4,15 +4,9 @@
  */
 package com.mycompany.lexical_analizer.InterfazGrafica;
 
-/**
- *
- * @author Vicky_soch
- */
 public class Inicio extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Inicio
-     */
+    
     public Inicio() {
         initComponents();
     }
