@@ -1,0 +1,46 @@
+Manual Técnico
+
+Este es el manual técnico de la practica de lenguajes, el cual detalla paso a paso todo lo que hace el código y tiene una breve descripción
+de como se debe abrir usando el IDE NetBeans 
+
+Primero que nada, debemos ubicar nuestro repositorio y clonarlo para poder hacer cambios en el 
+
+Luego de haber descargado nuestro repositorio de GitHub, debemos entrar a nuestro entorno de desarrollo integrado NetBeans, y ubicar el 
+proyecto donde lo tengamos descargado para poder abrirlo 
+
+Una vez tengamos abierto el proyecto, nos dirigimos a nuestra clase principal, la cual tiene el punto de entrada de la aplicación, el cual 
+configura la interfaz de usuario para luego mostrar la interfaz utilizando la clase InterfazTablas
+
+En la clase Tokens es utilizada para representar los tokens del analizador léxico, se inicializa una instancia de InterfazTablas con 
+valores iniciales que son necesarios para el análisis lexico, se prepara una lista para almacenar los tokens y un mapa para asociar 
+palabras reservadas con sus tipos correspondientes 
+
+Seguidamente se implementa la parte del analizador lexico que escanea el codigo que se ingresa al panel de la esquina superior izquierda 
+y produce una lista de token, se tokenizan comentarios, símbolos especiales, números enteros y decimales, cadenas de texto, identificadores,
+operadores, errores y la línea actual y retorno de tokens; Después hay un método que verifica la validación de una cadena 
+
+Después hay un método llamado agregarTokensATabla , el cual toma una lista de tokens como entrada y agrega estos tokens a la tabla que 
+aparece en la esquina superior derecha 
+
+Seguidamente se inicia con los autómatas de cada método para el analizador sintáctico
+
+para el metodo de analyzeVariableDeclaration Inicia en el Estado 0, donde verifica que el primer carácter sea válido para el inicio de un
+identificador. Luego, pasa al Estado 1 para validar el cuerpo del identificador. Si encuentra espacios en blanco, pasa al Estado 2 para 
+permitir espacios en blanco antes de la siguiente variable. Si en algún momento se encuentra un carácter inválido, el automata retorna 
+false. Si el automata llega al final de la línea en el Estado 1, indica que ha reconocido con éxito una declaración de variable válida y 
+retorna true.
+
+para el metodo de analyzeAssignation Comienza en el Estado 0, donde verifica si se encuentra un carácter válido para el inicio de una 
+asignación de variable o espacios en blanco. Luego, pasa al Estado 1 para validar el nombre de la variable. Luego, pasa al Estado 2 para 
+permitir espacios en blanco antes del operador de asignación. Finalmente, llega al Estado 3 después de encontrar un operador de asignación 
+válido, donde no se realizan más validaciones. Si llega al Estado 3 al final de la línea, retorna true.
+
+para el metodo de analyzeWhileLoop empieza Estado 0: Estado inicial. Espera la letra "w" o "W". Si se encuentra una letra diferente o 
+espacio en blanco, el AFD regresa a este estado.Estado 1: Si se ha encontrado una "w" (o "W") en el estado anterior, este estado espera la
+letra "h" (o "H"). Si se encuentra una letra diferente, el AFD vuelve al estado 0.Estado 2: Si se ha encontrado una "wh" (o "WH") en el 
+estado anterior, este estado espera la letra "i" (o "I"). Si se encuentra una letra diferente, el AFD regresa al estado 0. Estado 3: Si se 
+ha encontrado una "whi" (o "WHI") en el estado anterior, este estado espera la letra "l" (o "L"). Si se encuentra una letra diferente, el 
+AFD vuelve al estado 0.Estado 4: Si se ha encontrado una "whil" (o "WHIL") en el estado anterior, este estado espera la letra "e" (o "E").
+Si se encuentra una letra diferente, el AFD regresa al estado 0. Estado 5: Si se ha encontrado una "while" (o "WHILE") en el estado 
+anterior, este estado verifica si el carácter actual es un espacio en blanco o dos puntos ":". Si es así, se considera que se ha 
+reconocido un "while" y se devuelve true. Si el carácter es diferente de espacio en blanco, el AFD regresa al estado 0.

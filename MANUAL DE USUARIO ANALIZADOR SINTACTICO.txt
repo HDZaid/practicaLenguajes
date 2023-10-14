@@ -1,0 +1,22 @@
+Manual De usuario 
+
+el siguiente programa fue echo en java, por lo que se puede usar cualquier IDE que tenga pre instalado java para acceder al código 
+fuente del programa 
+
+para acceder al programa se debe hacer abrir el ejecutable, un archivo .jar para acceder al programa, una vez entra al programa se 
+reconocen 4 secciones del mismo, la parte superior izquierda, que es la que se usa para escribir en ella, de la cual se obtendrán los 
+tokes que serán analizados por el programa 
+
+junto a este panel, se encuentra un botón que deja buscar archivos, debemos buscar los archivos correspondientes al código que vamos a 
+analizar 
+
+en la esquina inferior izquierda, se encuentra el analizador léxico, el cual tiene un botón para hacer el análisis al código escrito en 
+panel en el panel antes mencionado 
+
+seguidamente en la parte inferior derecha encontramos la parte del analizador sintáctico, el cual de la misma manera cuenta con un botón 
+para analizar el código escrito en el panel izquierdo 
+
+y en la parte superior derecha encontramos la tabla de símbolos la cual describirá los símbolos globales que tenga nuestro código. 
+
+Podes borrar, copiar y pegar en el panel de la izquierda, sin embargo el código no se analiza en tiempo real, por lo que se deben pulsar 
+los botones para que cada analizador y la tabla de símbolos funcionen correctamente
