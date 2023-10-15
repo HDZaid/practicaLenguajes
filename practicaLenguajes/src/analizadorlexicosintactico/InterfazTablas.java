@@ -419,220 +419,291 @@ public class InterfazTablas extends javax.swing.JFrame {
     //Sintactico
     // Método para analizar declaraciones de variables
     public static boolean analyzeVariableDeclaration(String line) {
-    int state = 0;
-    int index = 0;
-    line = line.trim(); // Eliminar espacios en blanco al principio y al final
-
-    while (index < line.length()) {
-        char c = line.charAt(index);
-
-        switch (state) {
-            case 0:
-                if (Character.isLetter(c) || c == '_') {
-                    state = 1;
-                } else {
-                    return false;
-                }
-                break;
-            case 1:
-                if (Character.isLetterOrDigit(c) || c == '_') {
-                    // Permanecer en el estado 1
-                } else if (Character.isWhitespace(c)) {
-                    state = 2;
-                } else {
-                    return false;
-                }
-                break;
-            case 2:
-                if (Character.isLetter(c) || c == '_') {
-                    state = 1;
-                } else {
-                    return false;
-                }
-                break;
-        }
-
-        index++;
-    }
-
-    return state == 1;
-}
-
-    public static boolean analyzeAssignation(String linea) {
-    int state = 0;
-    int index = 0;
-    linea = linea.trim(); // Eliminar espacios en blanco al principio y al final
-
-    while (index < linea.length()) {
-        char c = linea.charAt(index);
-
-        switch (state) {
-            case 0:
-                if (Character.isWhitespace(c)) {
-                    // Permanecer en el estado 0
-                } else if (Character.isLetter(c)) {
-                    state = 1;
-                } else {
-                    return false;
-                }
-                break;
-            case 1:
-                if (Character.isLetterOrDigit(c) || c == '_') {
-                    // Permanecer en el estado 1
-                } else if (Character.isWhitespace(c)) {
-                    state = 2;
-                } else if (isAssignmentOperator(c)) {
-                    state = 3;
-                } else {
-                    return false;
-                }
-                break;
-            case 2:
-                if (isAssignmentOperator(c)) {
-                    state = 3;
-                } else if (!Character.isWhitespace(c)) {
-                    return false;
-                }
-                break;
-            case 3:
-                // No se realiza ninguna validación adicional en este estado
-                break;
-        }
-
-        index++;
-    }
-
-    return state == 3;
-}
-
-    public static boolean isAssignmentOperator(char c) {
-    return c == '=' || c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '^';
-    }
-    
-    public static boolean analyzeCallFunction(String linea) {
-    int state = 0;
-    int index = 0;
-    linea = linea.trim(); // Eliminar espacios en blanco al principio y al final
-
-    while (index < linea.length()) {
-        char c = linea.charAt(index);
-
-        switch (state) {
-            case 0:
-                if (Character.isWhitespace(c)) {
-                    // Permanecer en el estado 0
-                } else if (Character.isLetter(c)) {
-                    state = 1;
-                } else {
-                    return false;
-                }
-                break;
-            case 1:
-                if (Character.isLetterOrDigit(c) || c == '_') {
-                    // Permanecer en el estado 1
-                } else if (Character.isWhitespace(c)) {
-                    state = 2;
-                } else if (c == '(') {
-                    state = 3;
-                } else {
-                    return false;
-                }
-                break;
-            case 2:
-                if (c == '(') {
-                    state = 3;
-                } else if (!Character.isWhitespace(c)) {
-                    return false;
-                }
-                break;
-            case 3:
-                // Continuar en el estado 3 hasta encontrar el cierre de paréntesis ')'
-                if (c == ')') {
-                    state = 4;
-                }
-                break;
-            case 4:
-                // No se realiza ninguna validación adicional en este estado
-                break;
-        }
-
-        index++;
-    }
-
-    return state == 4;
-}
-    
-    
-    // Método para analizar condicionales (if)
-     public static boolean analyzeConditional(String line) {
-    int state = 0;
-
+    int currentState = 0;  // Estado inicial
     for (char c : line.toCharArray()) {
-        switch (state) {
+        switch (currentState) {
             case 0:
-                if (c == ' ' || c == '\t') {
-                    state = 0;
-                } else if (c == 'i') {
-                    state = 1;
-                } else if (c == 'e') {
-                    state = 7;
+                if (Character.isLetter(c) || c == '_') {
+                    currentState = 1;
                 } else {
-                    return false; // Carácter no válido en el inicio
+                    return false;
                 }
                 break;
             case 1:
-                if (c == 'f') {
-                    state = 2;
-                } else if (c == 'l') {
-                    state = 4;
+                if (Character.isLetterOrDigit(c) || c == '_') {
+                    // Permite letras, dígitos y guiones bajos en el nombre de la variable
+                } else if (Character.isWhitespace(c)) {
+                    currentState = 2;
                 } else {
                     return false;
                 }
                 break;
             case 2:
+                if (Character.isWhitespace(c)) {
+                    // Permite espacios en blanco antes del tipo de variable
+                } else {
+                    currentState = 3;
+                }
+                break;
             case 3:
-            case 6:
-            case 8:
-                if (c == ' ' || c == '\t') {
-                    state++;
+                if (Character.isLetter(c) || c == '_') {
+                    currentState = 4;
                 } else {
                     return false;
                 }
                 break;
             case 4:
-                if (c == 'i') {
-                    state = 5;
+                if (Character.isLetterOrDigit(c) || c == '_') {
+                    // Permite letras, dígitos y guiones bajos en el tipo de variable
+                } else if (Character.isWhitespace(c)) {
+                    currentState = 5;
                 } else {
                     return false;
                 }
                 break;
             case 5:
-                if (c == 'f') {
-                    state = 6;
+                if (Character.isWhitespace(c)) {
+                    // Permite espacios en blanco después de la declaración de la variable
                 } else {
                     return false;
                 }
                 break;
-            case 7:
-                if (c == 'l') {
-                    state = 8;
+        }
+    }
+
+    // La declaración de variable es válida si se llega al estado 5
+    return currentState == 5;
+}
+
+
+    
+public static boolean analyzeAssignation(String linea) {
+    int currentState = 0;  // Estado inicial
+    linea = linea.trim();  // Elimina espacios en blanco al principio y al final de la línea
+
+    for (char c : linea.toCharArray()) {
+        switch (currentState) {
+            case 0:
+                if (Character.isLetter(c)) {
+                    currentState = 1;
                 } else {
                     return false;
                 }
                 break;
-            case 9:
-            case 10:
-                if (c == ' ' || c == '\t') {
-                    state = 9;
-                } else if (c == ':') {
-                    state = 10;
+            case 1:
+                if (Character.isLetterOrDigit(c) || c == '_') {
+                    // Permite letras, dígitos y guiones bajos en el nombre de la variable
+                } else if (Character.isWhitespace(c)) {
+                    currentState = 2;
+                } else if (c == '=') {
+                    currentState = 3;  // Encontró el signo de igual
                 } else {
-                    return true; // Se ha detectado un "if", "elif" o "else"
+                    return false;
+                }
+                break;
+            case 2:
+                if (Character.isWhitespace(c)) {
+                    // Permite espacios en blanco antes del signo de igual
+                } else if (c == '=') {
+                    currentState = 3;  // Encontró el signo de igual
+                } else {
+                    return false;
+                }
+                break;
+            case 3:
+                if (c != '=') {
+                    // Verifica que no sea una comparación (==)
+                    return true;
+                } else {
+                    return false;  // Es una comparación (==) y no una asignación
                 }
         }
     }
 
-    return false; // No se ha detectado un "if", "elif" o "else"
+    // La asignación es válida si se llega al estado 3
+    return currentState == 3;
+}
+
+    
+  public static boolean analyzeCallFunction(String linea) {
+    int currentState = 0;  // Estado inicial
+    boolean inString = false; // Indicador para el estado dentro de una cadena
+    for (char c : linea.toCharArray()) {
+        if (inString) {
+            if (c == '"') {
+                inString = false;
+            }
+            // Permite cualquier carácter dentro de las comillas
+        } else {
+            switch (currentState) {
+                case 0:
+                    if (Character.isLetter(c)) {
+                        currentState = 1;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 1:
+                    if (Character.isLetterOrDigit(c) || c == '_') {
+                        // Permite letras, dígitos y guiones bajos en el nombre de la función
+                    } else if (c == '(') {
+                        currentState = 2;
+                    } else if (Character.isWhitespace(c)) {
+                        // Permite espacios en blanco antes de los paréntesis
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 2:
+                    if (c == ')') {
+                        currentState = 3;  // Llamada sin argumentos
+                    } else if (Character.isDigit(c)) {
+                        currentState = 4;  // Llamada con argumento numérico
+                    } else if (c == '"') {
+                        inString = true;
+                        currentState = 5;  // Llamada con argumento de cadena
+                    } else if (c == 'T' || c == 'F' || Character.isLetter(c)) {
+                        currentState = 8;  // Llamada con argumento de palabra
+                    } else if (Character.isWhitespace(c)) {
+                        // Permite espacios en blanco dentro de los paréntesis
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 4:
+                    if (Character.isDigit(c)) {
+                        // Permite números en los argumentos
+                    } else if (c == ',') {
+                        currentState = 5;  // Más argumentos
+                    } else if (c == ')') {
+                        currentState = 3;  // Finaliza la llamada con argumentos
+                    } else if (Character.isWhitespace(c)) {
+                        // Permite espacios en blanco después de la coma
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 5:
+                    if (c == '"') {
+                        inString = true;
+                        currentState = 6;  // Argumento de cadena después de la coma
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 6:
+                    if (c == '"') {
+                        currentState = 7;  // Finaliza la cadena
+                    } else {
+                        // Permite cualquier carácter dentro de las comillas
+                    }
+                    break;
+                case 7:
+                    if (c == ',') {
+                        currentState = 5;  // Más argumentos después de la cadena
+                    } else if (c == ')') {
+                        currentState = 3;  // Finaliza la llamada con argumentos y cadena
+                    } else if (Character.isWhitespace(c)) {
+                        // Permite espacios en blanco después de la cadena
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 8:
+                    if (Character.isLetterOrDigit(c) || c == '_') {
+                        // Permite letras, dígitos y guiones bajos en las palabras
+                    } else if (c == ',') {
+                        currentState = 5;  // Más palabras
+                    } else if (c == ')') {
+                        currentState = 3;  // Finaliza la llamada con argumentos y palabras
+                    } else if (Character.isWhitespace(c)) {
+                        // Permite espacios en blanco después de las palabras
+                    } else {
+                        return false;
+                    }
+                    break;
+            }
+        }
+    }
+
+    // La llamada a la función es válida si se llega al estado 3
+    return currentState == 3;
+}
+
+
+    // Método para analizar condicionales (if)
+  public static boolean analyzeConditional(String line) {
+    line = line.trim(); // Elimina espacios en blanco al principio y al final de la línea
+    int state = 0; // Estado inicial
+
+    for (int index = 0; index < line.length(); index++) {
+        char currentChar = line.charAt(index);
+
+        switch (state) {
+            case 0: // Estado inicial
+                if (currentChar == 'i') {
+                    state = 1; // Se espera 'i'
+                } else if (currentChar == 'e') {
+                    state = 5; // Se espera 'e'
+                } else {
+                    return false; // No coincide con ninguna estructura condicional
+                }
+                break;
+            case 1: // Estado 'i'
+                if (currentChar == 'f') {
+                    state = 2; // Coincidió con 'if'
+                } else if (currentChar == 'e') {
+                    state = 5; // Coincidió con 'ie', se espera 'l'
+                } else {
+                    return false; // No coincide con ninguna estructura condicional
+                }
+                break;
+            case 2: // Estado después de 'if'
+                if (Character.isWhitespace(currentChar) || currentChar == ':') {
+                    // Permitimos espacios en blanco o ':'
+                    return true; // Se reconoció una estructura condicional
+                } else {
+                    return false; // No coincide con ninguna estructura condicional
+                }
+            case 5: // Estado 'e' después de 'e'
+                if (currentChar == 'l') {
+                    state = 6; // Coincidió con 'el', se espera 's' para 'else' o 'i' para 'if'
+                } else {
+                    return false; // No coincide con ninguna estructura condicional
+                }
+                break;
+            case 6: // Estado después de 'el'
+                if (currentChar == 's') {
+                    state = 7; // Coincidió con 'els'
+                } else if (currentChar == 'i') {
+                    state = 1; // Coincidió con 'elif'
+                } else if (Character.isWhitespace(currentChar) || currentChar == ':') {
+                    // Permitimos espacios en blanco, ':' o '(' para condiciones sin paréntesis
+                    return true; // Se reconoció una estructura condicional
+                } else {
+                    return false; // No coincide con ninguna estructura condicional
+                }
+                break;
+            case 7: // Estado después de 'els'
+                if (currentChar == 'e') {
+                    state = 8; // Coincidió con 'else', se espera ':' o espacio
+                } else {
+                    return false; // No coincide con ninguna estructura condicional
+                }
+                break;
+            case 8: // Estado final después de 'else'
+                if (currentChar == ':') {
+                    return true; // Se reconoció una estructura condicional
+                } else if (Character.isWhitespace(currentChar)) {
+                    // Permitimos espacios en blanco
+                } else {
+                    return false; // No coincide con ninguna estructura condicional
+                }
+                break;
+        }
+    }
+
+    return false; // Llegó al final de la línea sin reconocer ninguna estructura
 }
 
     private static int lastIndentCount = 0;
@@ -641,78 +712,94 @@ public class InterfazTablas extends javax.swing.JFrame {
 
     // Método para analizar bucles (for)
     public static boolean analyzeLoop(String line) {
-    int state = 0;
+    int currentState = 0;  // Estado inicial
+    boolean insideString = false; // Indicador para el estado dentro de una cadena
 
     for (char c : line.toCharArray()) {
-        switch (state) {
-            case 0:
-                if (c == 'f') {
-                    state = 1;
-                } else if (c == ' ' || c == '\t') {
-                    // Permite espacios o tabulaciones antes de la palabra "for" o "else"
-                    state = 0;
-                } else {
-                    state = 0;
-                }
-                break;
-            case 1:
-                if (c == 'o') {
-                    state = 2;
-                } else if (c == 'e') {
-                    state = 4;
-                } else {
-                    state = 0;
-                }
-                break;
-            case 2:
-                if (c == 'r') {
-                    state = 3;
-                } else {
-                    state = 0;
-                }
-                break;
-            case 3:
-                if (c == ' ' || c == ':') {
-                    return true; // Se ha detectado un ciclo "for"
-                } else if (c != ' ') {
-                    state = 0;
-                }
-                break;
-            case 4:
-                if (c == 'l') {
-                    state = 5;
-                } else {
-                    state = 0;
-                }
-                break;
-            case 5:
-                if (c == 's') {
-                    state = 6;
-                } else {
-                    state = 0;
-                }
-                break;
-            case 6:
-                if (c == 'e') {
-                    state = 7;
-                } else {
-                    state = 0;
-                }
-                break;
-            case 7:
-                if (c == ' ' || c == ':') {
-                    return true; // Se ha detectado un "else"
-                } else if (c != ' ') {
-                    state = 0;
-                }
-                break;
+        if (insideString) {
+            if (c == '"') {
+                insideString = false;
+            }
+            // Permite cualquier carácter dentro de las comillas
+        } else {
+            switch (currentState) {
+                case 0:
+                    if (c == 'f') {
+                        currentState = 1;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 1:
+                    if (c == 'o') {
+                        currentState = 2;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 2:
+                    if (c == 'r') {
+                        currentState = 3;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 3:
+                    if (Character.isWhitespace(c)) {
+                        // Ignora los espacios en blanco
+                    } else if (c == ':') {
+                        return true;  // Ha encontrado "for" seguido de ":"
+                    } else {
+                        currentState = 4; // Puede ser un ciclo "for" más complejo
+                    }
+                    break;
+                case 4:
+                    if (Character.isLetterOrDigit(c) || c == '_') {
+                        // Permite letras, dígitos y guiones bajos en las variables
+                    } else if (Character.isWhitespace(c)) {
+                        currentState = 5; // Puede haber más variables o un "in"
+                    } else if (c == 'i') {
+                        currentState = 6; // Puede ser un ciclo "for" con "in"
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 5:
+                    if (Character.isWhitespace(c)) {
+                        // Ignora los espacios en blanco
+                    } else if (c == 'i') {
+                        currentState = 6; // Puede ser un ciclo "for" con "in"
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 6:
+                    if (c == 'n') {
+                        currentState = 7;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 7:
+                    if (Character.isWhitespace(c)) {
+                        // Ignora los espacios en blanco
+                    } else {
+                        return true; // Ha encontrado un ciclo "for" con "in"
+                    }
+            }
+        }
+
+        if (c == '"') {
+            insideString = !insideString;
         }
     }
 
-    return false;
+    return false;  // No se encontró un bucle "for" completo
 }
 
-    public static boolean analyzeWhileLoop(String line) {
+
+//LE FALTAN COSAS 
+   public static boolean analyzeWhileLoop(String line) {
     int state = 0;
 
     for (char c : line.toCharArray()) {
@@ -768,173 +855,182 @@ public class InterfazTablas extends javax.swing.JFrame {
     return false;
 }
 
+  
+
+
     // Método para analizar definición de funciones
     public static boolean analyzeFunctionDeclaration(String line) {
-    // Elimina los espacios en blanco al principio y al final de la línea.
-    line = line.trim();
-
-    // Define el estado inicial y un conjunto de estados finales.
-    String currentState = "start";
-    String[] finalStates = {"def"};
-
-    int index = 0;
-    boolean insideParentheses = false;
-
-    // Itera a través de cada carácter en la línea.
-    while (index < line.length()) {
-        char c = line.charAt(index);
-
+    int currentState = 0;  // Estado inicial
+    for (char c : line.toCharArray()) {
         switch (currentState) {
-            case "start":
-                if (c == 'd') {
-                    currentState = "d";
-                } else {
-                    return false;
-                }
-                break;
-            case "d":
-                if (c == 'e') {
-                    currentState = "de";
-                } else {
-                    return false;
-                }
-                break;
-            case "de":
-                if (c == 'f') {
-                    currentState = "def";
-                } else if (c == '(') {
-                    currentState = "def(";
-                    insideParentheses = true;
-                } else {
-                    return false;
-                }
-                break;
-            case "def":
-                if (insideParentheses && c == ')') {
-                    currentState = "def)";
-                } else if (insideParentheses && c == '(') {
-                    // No permitir paréntesis anidados
-                    return false;
-                }
-                break;
-            case "def)":
-                if (c == ':') {
-                    currentState = "def):";
-                } else if (c == '#' || Character.isWhitespace(c)) {
-                    // Permitir comentarios después de los paréntesis de cierre
-                } else {
-                    return false;
-                }
-                break;
-            case "def):":
-                if (Character.isWhitespace(c)) {
-                    // Permitir espacios en blanco antes de comentarios
-                } else if (c == '#') {
-                    currentState = "def):#";
-                } else {
-                    return false;
-                }
-                break;
-            case "def):#":
-                // Permitir cualquier carácter después de '#' en comentarios
-                break;
-            default:
-                // Llegó a un estado final, se verifica si es uno de los estados finales válidos.
-                if (isFinalState(currentState, finalStates)) {
-                    return true;
-                } else {
-                    return false;
-                }
-        }
-
-        index++;
-    }
-
-    // Verifica si el estado actual es un estado final válido.
-    return isFinalState(currentState, finalStates);
-}
-
-// Función auxiliar para verificar si el estado es un estado final válido.
-    private static boolean isFinalState(String state, String[] finalStates) {
-    for (String finalState : finalStates) {
-        if (state.equals(finalState)) {
-            return true;
-        }
-    }
-    return false;
-}
-    
-    public static boolean analyzeBreak(String line) {
-    int state = 0;
-    int index = 0;
-    line = line.trim(); // Eliminar espacios en blanco al principio y al final
-
-    while (index < line.length()) {
-        char c = line.charAt(index);
-
-        switch (state) {
             case 0:
-                if (Character.isWhitespace(c)) {
-                    // Permanecer en el estado 0
-                } else if (c == 'b') {
-                    state = 1;
+                if (c == 'd') {
+                    currentState = 1;
                 } else {
                     return false;
                 }
                 break;
             case 1:
-                if (c == 'r') {
-                    state = 2;
+                if (c == 'e') {
+                    currentState = 2;
                 } else {
                     return false;
                 }
                 break;
             case 2:
-                if (c == 'e') {
-                    state = 3;
+                if (c == 'f') {
+                    currentState = 3;
                 } else {
                     return false;
                 }
                 break;
             case 3:
-                if (c == 'a') {
-                    state = 4;
+                if (c == ' ') {
+                    currentState = 4;
                 } else {
                     return false;
                 }
                 break;
             case 4:
-                if (c == 'k') {
-                    state = 5;
+                if (Character.isLetter(c) || c == '_') {
+                    currentState = 5;
                 } else {
                     return false;
                 }
                 break;
             case 5:
-                if (Character.isWhitespace(c)) {
-                    // Permanecer en el estado 5
-                } else if (c == 'w') {
-                    state = 6;
+                if (Character.isLetterOrDigit(c) || c == '_') {
+                    // Permite letras, dígitos y guiones bajos en el nombre de la función
+                } else if (c == '(') {
+                    currentState = 6;
                 } else {
                     return false;
                 }
                 break;
             case 6:
-                if (Character.isLetterOrDigit(c) || c == '_' || Character.isWhitespace(c) || c == '#') {
-                    // Permanecer en el estado 6
+                if (c == ')') {
+                    currentState = 7;
+                } else {
+                    // Permitir cualquier carácter dentro de los paréntesis
+                }
+                break;
+            case 7:
+                if (c == ':') {
+                    currentState = 8;
                 } else {
                     return false;
                 }
                 break;
+            case 8:
+                return false;  // No se permiten más caracteres después de ':'
         }
-
-        index++;
     }
 
-    return state == 6;
+    // La función es válida si se llega al estado 8
+    return currentState == 8;
 }
+
     
-    public static boolean analyzePrint(String line) {
+   public static boolean analyzeLogicalExpression(String linea) {
+    int state = 0;
+
+    for (char c : linea.toCharArray()) {
+        switch (state) {
+            case 0:
+                if (c == '=') {
+                    state = 1;
+                } else if (c == '<' || c == '>') {
+                    state = 2;
+                } else if (c == '!') {
+                    state = 3;
+                }
+                break;
+            case 1:
+                if (c == '=') {
+                    return true; // Se ha detectado una expresión lógica
+                }
+                break;
+            case 2:
+                if (c == '=' || c == '>') {
+                    return true; // Se ha detectado una expresión lógica
+                }
+                break;
+            case 3:
+                if (c == '=') {
+                    return true; // Se ha detectado una expresión lógica
+                }
+                break;
+        }
+    }
+
+    return false;
+}
+
+    
+    public static boolean analyzeBreak(String code) {
+    int state = 0;
+
+    for (int i = 0; i < code.length(); i++) {
+        char c = code.charAt(i);
+
+        switch (state) {
+            case 0:
+                if (c == 'b') {
+                    state = 1;
+                } else if (Character.isWhitespace(c)) {
+                    state = 0;
+                } else {
+                    state = -1; // Estado de reinicio
+                }
+                break;
+            case 1:
+                if (c == 'r') {
+                    state = 2;
+                } else if (Character.isWhitespace(c)) {
+                    state = 0;
+                } else {
+                    state = -1; // Estado de reinicio
+                }
+                break;
+            case 2:
+                if (c == 'e') {
+                    state = 3;
+                } else if (Character.isWhitespace(c)) {
+                    state = 0;
+                } else {
+                    state = -1; // Estado de reinicio
+                }
+                break;
+            case 3:
+                if (Character.isWhitespace(c)) {
+                    state = 4;
+                } else if (c != 'b' && c != 'r' && c != 'e') {
+                    state = -1; // Estado de reinicio
+                }
+                break;
+            case 4:
+                if (c == 'b') {
+                    state = 1;
+                } else if (!Character.isWhitespace(c)) {
+                    state = -1; // Estado de reinicio
+                }
+                break;
+            default:
+                state = 0;
+                break;
+        }
+
+        if (state == 4) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+    
+   public static boolean analyzePrint(String line) {
     int state = 0;
     int index = 0;
     line = line.trim(); // Eliminar espacios en blanco al principio y al final
@@ -1007,61 +1103,58 @@ public class InterfazTablas extends javax.swing.JFrame {
 
     return state == 7; // El estado final es 7
 }
+   
     
     public static boolean analyzeLineEmpty(String line) {
     int state = 0;
-    int index = 0;
-    line = line.trim(); // Eliminar espacios en blanco al principio y al final
 
-    while (index < line.length()) {
-        char c = line.charAt(index);
-
+    for (char c : line.toCharArray()) {
         switch (state) {
             case 0:
-                if (Character.isWhitespace(c)) {
-                    // Permanecer en el estado 0
+                if (c == ' ' || c == '\t') {
+                    state = 0; // Espacios en blanco permitidos al principio
+                } else if (c == '\n' || c == '\r') {
+                    return true; // Línea vacía
                 } else {
-                    return false;
-                }
-                break;
-        }
-
-        index++;
-    }
-
-    return true;
-}
-
-       public static boolean analyzeComment(String line) {
-    int state = 0;
-    int index = 0;
-    line = line.trim(); // Eliminar espacios en blanco al principio y al final
-
-    while (index < line.length()) {
-        char c = line.charAt(index);
-
-        switch (state) {
-            case 0:
-                if (c == '#') {
-                    state = 1;
-                } else {
-                    return false;
+                    state = 1; // Otros caracteres permitidos
                 }
                 break;
             case 1:
-                // Se permite cualquier carácter dentro de un comentario
-                // No se realiza ninguna validación adicional en este estado
+                if (c == '\n' || c == '\r') {
+                    return true; // Línea no vacía, pero no coincide con patrones específicos
+                }
                 break;
         }
-
-        index++;
     }
 
-    return state == 1;
+    return false;
 }
 
+    public static boolean analyzeComment(String line) {
+    int state = 0;
+
+    for (char c : line.toCharArray()) {
+        switch (state) {
+            case 0:
+                if (c == '#') {
+                    return true; // Se ha detectado un comentario
+                } else if (c == ' ' || c == '\t') {
+                    state = 0; // Espacios en blanco permitidos antes del comentario
+                } else {
+                    state = 1; // Permitir otros caracteres antes del comentario
+                }
+                break;
+            case 1:
+                if (c == '#') {
+                    return true; // Se ha detectado un comentario
+                }
+                break;
+        }
+    }
+
+    return false;
+}
     
-      
        public static boolean noCharacters(String line) {
     // Elimina los espacios en blanco al principio y al final de la línea
     line = line.trim();
@@ -1069,45 +1162,128 @@ public class InterfazTablas extends javax.swing.JFrame {
     // Comprueba si la línea está vacía
     return line.isEmpty();
 }
+       
+    public static boolean analyzeOperatorAssignation(String linea) {
+    int state = 0;
+
+    for (char c : linea.toCharArray()) {
+        switch (state) {
+            case 0:
+                if (Character.isLetter(c)) {
+                    state = 1;
+                } else {
+                    return false; // Debe comenzar con una letra
+                }
+                break;
+            case 1:
+                if (Character.isLetterOrDigit(c) || c == '_') {
+                    state = 1;
+                } else if (c == ' ' || c == '\t') {
+                    state = 2;
+                } else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '=') {
+                    state = 3;
+                } else {
+                    return false; // Carácter no válido después del nombre de la variable
+                }
+                break;
+            case 2:
+                if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '=') {
+                    state = 3;
+                } else if (c != ' ' && c != '\t') {
+                    return false; // Carácter no válido después de espacios
+                }
+                break;
+            case 3:
+                if (c == '=') {
+                    return true; // Se ha detectado una asignación con operador
+                } else {
+                    return false; // Carácter no válido después del operador
+                }
+        }
+    }
+
+    return false;
+}
+       
     public static boolean analyzeReturnStatement(String line) {
     // Elimina los espacios en blanco al principio y al final de la línea
     line = line.trim();
 
     // Verifica si la línea comienza con "return " (con un espacio después)
     return line.startsWith("return ");
-}   
-       
+}
+    
+     public static boolean analyzeConditionalTern(String lineaCodigo) {
+    int state = 0;
+
+    for (char c : lineaCodigo.toCharArray()) {
+        switch (state) {
+            case 0:
+                if (c == '=') {
+                    state = 1;
+                } else {
+                    return false; // El operador ternario debe comenzar con "="
+                }
+                break;
+            case 1:
+                if (c == '?') {
+                    state = 2;
+                } else {
+                    return false; // Se esperaba "?"
+                }
+                break;
+            case 2:
+                if (c == ':') {
+                    state = 3;
+                }
+                break;
+            case 3:
+                // El estado 3 permite cualquier carácter, ya que el operador ternario puede contener expresiones arbitrarias
+                break;
+        }
+    }
+
+    return state == 3;
+}
+
+      
     public static void analyzePythonCode(String code, JTextArea textArea) {
 
          String[] codeLines = code.split("\n");
 
         for (String line : codeLines) {
             if (analyzeVariableDeclaration(line)) {
-                textArea.append("Declaracion de Variable: " + line + "\n");
+                textArea.append("Declarando de Variable: " + line + "\n");
             }else if (analyzeComment(line)) {
                 textArea.append("Comentario: " + line + "\n");
             }else if (analyzeReturnStatement(line)) {
-                textArea.append("Retorna valor: " + line + "\n");
+                textArea.append("Retornando valor: " + line + "\n");
             }else if (analyzeAssignation(line)) {
                 textArea.append("Asignación: " + line + "\n");
             } else if (analyzeConditional(line)) {
-                textArea.append("Condicional: " + line + "\n");
+                textArea.append("Agregando Condicional: " + line + "\n");
             } else if (analyzeLoop(line)) {
                 textArea.append("Bucle: " + line + "\n");
-            } else if (analyzeWhileLoop(line)) {
+            }else if(analyzeConditionalTern(line)){
+                 textArea.append("Condi. operador ternario: " + line + "\n");
+            }else if (analyzeWhileLoop(line)) {
                 textArea.append("Bucle While: " + line + "\n");
             } else if (analyzePrint(line)) {
-                textArea.append("Imprimir: " + line + "\n");
+                textArea.append("Imprimiendo: " + line + "\n");
+            }else if (analyzeOperatorAssignation(line)) {
+                textArea.append("Asignacion con operador: " + line + "\n");
+            }else if (analyzeLogicalExpression(line)) {
+                textArea.append("Expresion Logica: " + line + "\n");
             }else if (analyzeBreak(line)) {
                 textArea.append("Rompe while: " + line + "\n");
             } else if (noCharacters(line)) {
                 textArea.append("Salto de Linea: " + line + "\n");
             } else if (analyzeCallFunction(line)) {
-                textArea.append("Llamar función: " + line + "\n");
+                textArea.append("Llamando función: " + line + "\n");
             } else if (analyzeFunctionDeclaration(line)) {
-                textArea.append("Declaración de metodo: " + line + "\n");
+                textArea.append("Declarando de metodo: " + line + "\n");
             } else if (analyzeError(line)) {
-                textArea.append("Error de sintaxis: " + line + "\n");
+                textArea.append("Se encontró error de sintaxis: " + line + "\n");
             }
         }
         // Analizar toda la cadena como una sola línea
